@@ -5,8 +5,9 @@
 version =
 alias =
 only_alias =
+platforms =
 
-image_name ?= emscripten/emsdk
+image_name ?= radiantly/emsdk
 
 .TEST:
 ifndef version
@@ -29,3 +30,10 @@ ifdef alias
 	docker tag ${image_name}:${version} ${image_name}:${alias}
 	docker push ${image_name}:${alias}
 endif
+
+push-multiplatform: .TEST
+ifndef platforms
+	$(error argument 'platforms' is not set. Please call `make platforms="SOME_PLATFORM1 SOME_PLATFORM2..." ...`)
+endif
+	docker manifest create ${image_name}:${version} $(foreach platform,$(platforms),--amend ${image_name}:${version}-$(platform))
+	docker manifest push ${image_name}:${version}
