@@ -316,15 +316,19 @@ workflows:
   build-docker-image:
     jobs:
       - build-docker-image-x64
-      - publish-docker-image:
+      - publish-docker-image-x86:
           filters:
             branches:
               ignore: /.*/
             tags:
               only: /.*/
-          matrix:
-            parameters:
-              platform: ["x64", "arm64"]
+      - publish-docker-image-arm64:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /.*/
       - publish-docker-image-multiplatform:
           requires:
-            - publish-docker-image
+            - publish-docker-image-x86
+            - publish-docker-image-arm64
