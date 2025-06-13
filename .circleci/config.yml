@@ -238,7 +238,8 @@ jobs:
           name: push image
           command: |
             docker login -u "$DOCKER_USER" -p "$DOCKER_PASS"
-            make -C ./docker version=${CIRCLE_TAG}-x64 alias=latest image_name=radiantly/emsdk push
+            make -C ./docker version=${CIRCLE_TAG} alias=${CIRCLE_TAG}-x64 only_alias=true image_name=radiantly/emsdk push
+            make -C ./docker version=${CIRCLE_TAG} alias=latest only_alias=true image_name=radiantly/emsdk push
 
   publish-docker-image-arm64:
     executor: linux_arm64
