@@ -230,16 +230,16 @@ jobs:
       - setup_remote_docker
       - run:
           name: build
-          command: make -C ./docker version=${CIRCLE_TAG} image_name=radiantly/emsdk build
+          command: make -C ./docker version=${CIRCLE_TAG} build
       - run:
           name: test
-          command: make -C ./docker version=${CIRCLE_TAG} image_name=radiantly/emsdk test
+          command: make -C ./docker version=${CIRCLE_TAG} test
       - run:
           name: push image
           command: |
             docker login -u "$DOCKER_USER" -p "$DOCKER_PASS"
-            make -C ./docker version=${CIRCLE_TAG} alias=${CIRCLE_TAG}-x64 only_alias=true image_name=radiantly/emsdk push
-            make -C ./docker version=${CIRCLE_TAG} alias=latest only_alias=true image_name=radiantly/emsdk push
+            make -C ./docker version=${CIRCLE_TAG} alias=${CIRCLE_TAG}-x64 only_alias=true push
+            make -C ./docker version=${CIRCLE_TAG} alias=latest only_alias=true push
 
   publish-docker-image-arm64:
     executor: linux_arm64
@@ -247,15 +247,15 @@ jobs:
       - checkout
       - run:
           name: build
-          command: make -C ./docker version=${CIRCLE_TAG} image_name=radiantly/emsdk build
+          command: make -C ./docker version=${CIRCLE_TAG} build
       - run:
           name: test
-          command: make -C ./docker version=${CIRCLE_TAG} image_name=radiantly/emsdk test
+          command: make -C ./docker version=${CIRCLE_TAG} test
       - run:
           name: push image
           command: |
             docker login -u "$DOCKER_USER" -p "$DOCKER_PASS"
-            make -C ./docker version=${CIRCLE_TAG} alias=${CIRCLE_TAG}-arm64 only_alias=true image_name=radiantly/emsdk push
+            make -C ./docker version=${CIRCLE_TAG} alias=${CIRCLE_TAG}-arm64 only_alias=true push
 
   publish-docker-image-multiplatform:
     executor: linux_arm64

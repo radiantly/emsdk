@@ -7,7 +7,7 @@ alias =
 only_alias =
 platforms =
 
-image_name ?= emscripten/emsdk
+image_name ?= radiantly/emsdk
 
 .TEST:
 ifndef version
