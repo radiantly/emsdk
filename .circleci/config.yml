@@ -230,10 +230,10 @@ jobs:
       - setup_remote_docker
       - run:
           name: build
-          command: make -C ./docker version=${CIRCLE_TAG} build
+          command: make -C ./docker version=${CIRCLE_TAG} image_name=radiantly/emsdk build
       - run:
           name: test
-          command: make -C ./docker version=${CIRCLE_TAG} test
+          command: make -C ./docker version=${CIRCLE_TAG} image_name=radiantly/emsdk test
       - run:
           name: push image
           command: |
@@ -246,10 +246,10 @@ jobs:
       - checkout
       - run:
           name: build
-          command: make -C ./docker version=${CIRCLE_TAG} build
+          command: make -C ./docker version=${CIRCLE_TAG} image_name=radiantly/emsdk build
       - run:
           name: test
-          command: make -C ./docker version=${CIRCLE_TAG} test
+          command: make -C ./docker version=${CIRCLE_TAG} image_name=radiantly/emsdk test
       - run:
           name: push image
           command: |
