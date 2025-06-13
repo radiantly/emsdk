@@ -238,7 +238,7 @@ jobs:
           name: push image
           command: |
             docker login -u "$DOCKER_USER" -p "$DOCKER_PASS"
-            make -C ./docker version=${CIRCLE_TAG} alias=latest image_name=radiantly/emsdk push
+            make -C ./docker version=${CIRCLE_TAG}-x64 alias=latest image_name=radiantly/emsdk push
 
   publish-docker-image-arm64:
     executor: linux_arm64
@@ -255,6 +255,15 @@ jobs:
           command: |
             docker login -u "$DOCKER_USER" -p "$DOCKER_PASS"
             make -C ./docker version=${CIRCLE_TAG} alias=${CIRCLE_TAG}-arm64 only_alias=true image_name=radiantly/emsdk push
+
+  publish-docker-image-multiplatform:
+    executor: ubuntu
+    steps:
+      - run:
+          name: push image
+          command: |
+            docker login -u "$DOCKER_USER" -p "$DOCKER_PASS"
+            make -C ./docker version=${CIRCLE_TAG} platforms="x64 arm64" push-multiplatform
 
   test-bazel7-linux:
     executor: ubuntu
@@ -307,15 +316,15 @@ workflows:
   build-docker-image:
     jobs:
       - build-docker-image-x64
-      - publish-docker-image-x64:
+      - publish-docker-image:
           filters:
             branches:
               ignore: /.*/
             tags:
               only: /.*/
-      - publish-docker-image-arm64:
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /.*/
+          matrix:
+            parameters:
+              platform: ["x64", "arm64"]
+      - publish-docker-image-multiplatform:
+          requires:
+            - publish-docker-image
