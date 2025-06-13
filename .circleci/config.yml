@@ -260,6 +260,7 @@ jobs:
   publish-docker-image-multiplatform:
     executor: linux_arm64
     steps:
+      - checkout
       - run:
           name: push image
           command: |
