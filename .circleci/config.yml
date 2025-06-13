@@ -330,6 +330,9 @@ workflows:
             tags:
               only: /.*/
       - publish-docker-image-multiplatform:
+          filters:
+            tags:
+              only: /.*/
           requires:
             - publish-docker-image-x64
             - publish-docker-image-arm64
