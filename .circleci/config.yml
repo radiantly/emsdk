@@ -258,7 +258,7 @@ jobs:
             make -C ./docker version=${CIRCLE_TAG} alias=${CIRCLE_TAG}-arm64 only_alias=true image_name=radiantly/emsdk push
 
   publish-docker-image-multiplatform:
-    executor: ubuntu
+    executor: linux_arm64
     steps:
       - run:
           name: push image
