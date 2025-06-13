@@ -316,7 +316,7 @@ workflows:
   build-docker-image:
     jobs:
       - build-docker-image-x64
-      - publish-docker-image-x86:
+      - publish-docker-image-x64:
           filters:
             branches:
               ignore: /.*/
@@ -330,5 +330,5 @@ workflows:
               only: /.*/
       - publish-docker-image-multiplatform:
           requires:
-            - publish-docker-image-x86
+            - publish-docker-image-x64
             - publish-docker-image-arm64
