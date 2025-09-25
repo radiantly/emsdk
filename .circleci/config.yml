@@ -96,7 +96,6 @@ jobs:
             python3 -m pip install flake8==7.1.1
             python3 -m flake8 --show-source --statistics --extend-exclude=./scripts
 
-
   test-linux:
     executor: ubuntu
     environment:
@@ -250,7 +249,6 @@ jobs:
           command: |
             docker login -u "$DOCKER_USER" -p "$DOCKER_PASS"
             make -C ./docker version=${CIRCLE_TAG} alias=${CIRCLE_TAG}-x64 only_alias=true push
-            make -C ./docker version=${CIRCLE_TAG} alias=latest only_alias=true push
 
   publish-docker-image-arm64:
     executor: linux_arm64
@@ -276,7 +274,7 @@ jobs:
           name: push image
           command: |
             docker login -u "$DOCKER_USER" -p "$DOCKER_PASS"
-            make -C ./docker version=${CIRCLE_TAG} platforms="x64 arm64" push-multiplatform
+            make -C ./docker version=${CIRCLE_TAG} alias="latest" push-multiplatform
 
   test-bazel7-linux:
     executor: ubuntu

@@ -5,7 +5,6 @@
 version =
 alias =
 only_alias =
-platforms =
 
 image_name ?= emscripten/emsdk
 
@@ -32,8 +31,5 @@ ifdef alias
 endif
 
 push-multiplatform: .TEST
-ifndef platforms
-	$(error argument 'platforms' is not set. Please call `make platforms="SOME_PLATFORM1 SOME_PLATFORM2..." ...`)
-endif
-	docker manifest create ${image_name}:${version} $(foreach platform,$(platforms),--amend ${image_name}:${version}-$(platform))
+	docker manifest create ${image_name}:${version} $(foreach platform,x64 arm64,--amend ${image_name}:${version}-$(platform))
 	docker manifest push ${image_name}:${version}
